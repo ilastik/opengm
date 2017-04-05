@@ -56,3 +56,20 @@ else
     echo "Couldn't run patch"
     exit 1
 fi
+
+
+# Combine all cpp files into a single translation unit to avoid linker errors on OS X.
+# These errors should not exists because QPBO uses the 'inline' keyword in the appropriate places,
+# but nonetheless, OS X complains.
+#
+# See, for example:
+# 1. https://groups.google.com/forum/#!topic/pystruct/WWSF7AI6X6w
+# 2. http://stackoverflow.com/questions/15298603/linking-errors-from-matlab-mex-library
+#
+# (In link 2, the user is trying to build MatLab bindings, but that is irrelevant to this error.)
+
+# Note that our CMakeLists.txt file has already been modified to use COMBINED_QPBO.cpp
+echo "Combining all QPBO source files into a single translation unit..."
+cat ${QPBO_SOURCE_FOLDER}/QPBO*.cpp      > ${QPBO_SOURCE_FOLDER}/COMBINED_QPBO.cpp
+cat ${QPBO_SOURCE_FOLDER}/instances.inc >> ${QPBO_SOURCE_FOLDER}/COMBINED_QPBO.cpp
+echo "Finished combining QPBO source files."

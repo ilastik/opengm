@@ -339,7 +339,7 @@ namespace opengm {
             if (gp_Embed(g, EMBEDFLAGS_PLANAR) == OK) {
                gp_SortVertices(g);
             } else {
-               throw("PlanarGraph not planar\n");
+               throw std::runtime_error("PlanarGraph not planar\n");
             }
 
             //// Repopulate edges in the embedding order

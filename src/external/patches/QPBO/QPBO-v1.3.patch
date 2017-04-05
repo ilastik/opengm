@@ -1,6 +1,6 @@
 diff -rupN QPBO-v1.3.src/QPBO.cpp QPBO-v1.3.src-patched/QPBO.cpp
---- QPBO-v1.3.src/QPBO.cpp	2010-01-25 16:38:59.000000000 +0100
-+++ QPBO-v1.3.src-patched/QPBO.cpp	2013-05-23 19:59:56.226606473 +0200
+--- QPBO-v1.3.src/QPBO.cpp	2010-01-25 10:38:59.000000000 -0500
++++ QPBO-v1.3.src-patched/QPBO.cpp	2016-05-31 16:08:42.000000000 -0400
 @@ -6,6 +6,8 @@
  #include <string.h>
  #include "QPBO.h"
@@ -10,7 +10,7 @@ diff -rupN QPBO-v1.3.src/QPBO.cpp QPBO-v1.3.src-patched/QPBO.cpp
  
  template <typename REAL> 
  	QPBO<REAL>::QPBO(int node_num_max, int edge_num_max, void (*err_function)(char *))
-@@ -24,7 +26,7 @@ template <typename REAL>
+@@ -24,7 +26,7 @@ template <typename REAL> 
  
  	nodes[0] = (Node*) malloc(2*node_num_max*sizeof(Node));
  	arcs[0] = (Arc*) malloc(4*edge_num_max*sizeof(Arc));
@@ -19,7 +19,7 @@ diff -rupN QPBO-v1.3.src/QPBO.cpp QPBO-v1.3.src-patched/QPBO.cpp
  
  	node_last[0] = nodes[0];
  	node_max[0] = nodes[1] = node_last[1] = nodes[0] + node_num_max;
-@@ -76,7 +78,7 @@ template <typename REAL>
+@@ -76,7 +78,7 @@ template <typename REAL> 
  
  	nodes[0] = (Node*) malloc(2*node_num_max*sizeof(Node));
  	arcs[0] = (Arc*) malloc(2*arc_num_max*sizeof(Arc));
@@ -28,7 +28,7 @@ diff -rupN QPBO-v1.3.src/QPBO.cpp QPBO-v1.3.src-patched/QPBO.cpp
  
  	node_last[0] = nodes[0] + node_num;
  	node_max[0] = nodes[1] = nodes[0] + node_num_max;
-@@ -176,7 +178,7 @@ template <typename REAL>
+@@ -176,7 +178,7 @@ template <typename REAL> 
  
  	int node_num_max = node_num_max_new;
  	nodes[0] = (Node*) realloc(nodes_old[0], 2*node_num_max*sizeof(Node));
@@ -37,7 +37,7 @@ diff -rupN QPBO-v1.3.src/QPBO.cpp QPBO-v1.3.src-patched/QPBO.cpp
  
  	node_shift = node_num_max*sizeof(Node);
  	node_last[0] = nodes[0] + node_num;
-@@ -208,7 +210,7 @@ template <typename REAL>
+@@ -208,7 +210,7 @@ template <typename REAL> 
  	Arc* arcs_old[2] = { arcs[0], arcs[1] };
  
  	arcs[0] = (Arc*) realloc(arcs_old[0], 2*arc_num_max*sizeof(Arc));
@@ -46,7 +46,7 @@ diff -rupN QPBO-v1.3.src/QPBO.cpp QPBO-v1.3.src-patched/QPBO.cpp
  
  	arc_shift = arc_num_max*sizeof(Arc);
  	arc_max[0] = arcs[1] = arcs[0] + arc_num_max;
-@@ -330,12 +332,12 @@ template <typename REAL>
+@@ -330,12 +332,12 @@ template <typename REAL> 
  				if (IsNode0(a->head)) delta += a->sister->r_cap + GetMate(a)->sister->r_cap;
  				else                  delta -= a->r_cap + GetMate(a)->r_cap;
  			}
@@ -65,11 +65,12 @@ diff -rupN QPBO-v1.3.src/QPBO.cpp QPBO-v1.3.src-patched/QPBO.cpp
  	}
  }
  
+-#include "instances.inc"
 +}}
- #include "instances.inc"
++//#include "instances.inc"
 diff -rupN QPBO-v1.3.src/QPBO.h QPBO-v1.3.src-patched/QPBO.h
---- QPBO-v1.3.src/QPBO.h	2010-01-25 16:41:14.000000000 +0100
-+++ QPBO-v1.3.src-patched/QPBO.h	2013-05-23 19:59:56.226606473 +0200
+--- QPBO-v1.3.src/QPBO.h	2010-01-25 10:41:14.000000000 -0500
++++ QPBO-v1.3.src-patched/QPBO.h	2016-05-31 16:06:38.000000000 -0400
 @@ -1,13 +1,11 @@
  /* QBPO.h */
  /*
@@ -114,7 +115,7 @@ diff -rupN QPBO-v1.3.src/QPBO.h QPBO-v1.3.src-patched/QPBO.h
  	//
  	//     For a review see also 
  	//
-@@ -811,5 +810,5 @@ template <typename REAL>
+@@ -811,5 +810,5 @@ template <typename REAL> 
  */
  #define QPBO_MAXFLOW_TERMINAL ( (Arc *) 1 )		/* to terminal */
  #define QPBO_MAXFLOW_ORPHAN   ( (Arc *) 2 )		/* orphan */
@@ -122,8 +123,8 @@ diff -rupN QPBO-v1.3.src/QPBO.h QPBO-v1.3.src-patched/QPBO.h
 +}}
  #endif
 diff -rupN QPBO-v1.3.src/QPBO_extra.cpp QPBO-v1.3.src-patched/QPBO_extra.cpp
---- QPBO-v1.3.src/QPBO_extra.cpp	2010-01-25 16:38:59.000000000 +0100
-+++ QPBO-v1.3.src-patched/QPBO_extra.cpp	2013-05-23 19:59:56.226606473 +0200
+--- QPBO-v1.3.src/QPBO_extra.cpp	2010-01-25 10:38:59.000000000 -0500
++++ QPBO-v1.3.src-patched/QPBO_extra.cpp	2016-05-31 16:08:40.000000000 -0400
 @@ -9,6 +9,8 @@
  /////////////////////////////////////////////////////////////////////////
  /////////////////////////////////////////////////////////////////////////
@@ -160,11 +161,12 @@ diff -rupN QPBO-v1.3.src/QPBO_extra.cpp QPBO-v1.3.src-patched/QPBO_extra.cpp
  	return success;
  }
 -
+-#include "instances.inc"
 +}}
- #include "instances.inc"
++//#include "instances.inc"
 diff -rupN QPBO-v1.3.src/QPBO_maxflow.cpp QPBO-v1.3.src-patched/QPBO_maxflow.cpp
---- QPBO-v1.3.src/QPBO_maxflow.cpp	2010-01-25 16:38:59.000000000 +0100
-+++ QPBO-v1.3.src-patched/QPBO_maxflow.cpp	2013-05-23 19:59:56.226606473 +0200
+--- QPBO-v1.3.src/QPBO_maxflow.cpp	2010-01-25 10:38:59.000000000 -0500
++++ QPBO-v1.3.src-patched/QPBO_maxflow.cpp	2016-05-31 16:08:36.000000000 -0400
 @@ -4,7 +4,8 @@
  #include <stdio.h>
  #include "QPBO.h"
@@ -175,16 +177,17 @@ diff -rupN QPBO-v1.3.src/QPBO_maxflow.cpp QPBO-v1.3.src-patched/QPBO_maxflow.cpp
  
  #define INFINITE_D ((int)(((unsigned)-1)/2))		/* infinite distance to the terminal */
  
-@@ -704,5 +705,5 @@ template <typename REAL>
+@@ -704,5 +705,5 @@ template <typename REAL> 
  		}
  	}
  }
 -
+-#include "instances.inc"
 +}}
- #include "instances.inc"
++//#include "instances.inc"
 diff -rupN QPBO-v1.3.src/QPBO_postprocessing.cpp QPBO-v1.3.src-patched/QPBO_postprocessing.cpp
---- QPBO-v1.3.src/QPBO_postprocessing.cpp	2010-01-25 16:38:59.000000000 +0100
-+++ QPBO-v1.3.src-patched/QPBO_postprocessing.cpp	2013-05-23 19:59:56.226606473 +0200
+--- QPBO-v1.3.src/QPBO_postprocessing.cpp	2010-01-25 10:38:59.000000000 -0500
++++ QPBO-v1.3.src-patched/QPBO_postprocessing.cpp	2016-05-31 16:08:33.000000000 -0400
 @@ -6,6 +6,8 @@
  #include <string.h>
  #include "QPBO.h"
@@ -199,11 +202,12 @@ diff -rupN QPBO-v1.3.src/QPBO_postprocessing.cpp QPBO-v1.3.src-patched/QPBO_post
  	ComputeWeakPersistencies();
  }
 -
+-#include "instances.inc"
 +}}
- #include "instances.inc"
++//#include "instances.inc"
 diff -rupN QPBO-v1.3.src/block.h QPBO-v1.3.src-patched/block.h
---- QPBO-v1.3.src/block.h	2010-01-25 16:39:21.000000000 +0100
-+++ QPBO-v1.3.src-patched/block.h	2013-05-23 19:59:56.226606473 +0200
+--- QPBO-v1.3.src/block.h	2010-01-25 10:39:21.000000000 -0500
++++ QPBO-v1.3.src-patched/block.h	2016-05-31 16:06:38.000000000 -0400
 @@ -87,8 +87,8 @@
  	deallocated only when the destructor is called.
  */
@@ -253,8 +257,8 @@ diff -rupN QPBO-v1.3.src/block.h QPBO-v1.3.src-patched/block.h
  #endif
  
 diff -rupN QPBO-v1.3.src/instances.inc QPBO-v1.3.src-patched/instances.inc
---- QPBO-v1.3.src/instances.inc	2010-01-25 16:38:59.000000000 +0100
-+++ QPBO-v1.3.src-patched/instances.inc	2013-08-30 15:40:06.838106688 +0200
+--- QPBO-v1.3.src/instances.inc	2010-01-25 10:38:59.000000000 -0500
++++ QPBO-v1.3.src-patched/instances.inc	2016-05-31 16:06:38.000000000 -0400
 @@ -5,30 +5,32 @@
  #endif
  

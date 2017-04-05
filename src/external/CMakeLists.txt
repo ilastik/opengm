@@ -2,10 +2,7 @@ add_subdirectory(patches)
 
 IF(WITH_QPBO)
     SET(QPBO_SRC_FILES
-        ${QPBO_PATCHEDSRCDIR}/QPBO_extra.cpp
-        ${QPBO_PATCHEDSRCDIR}/QPBO.cpp
-        ${QPBO_PATCHEDSRCDIR}/QPBO_maxflow.cpp
-        ${QPBO_PATCHEDSRCDIR}/QPBO_postprocessing.cpp
+        ${QPBO_PATCHEDSRCDIR}/COMBINED_QPBO.cpp
     )
     
     SET(QPBO_SRC_FILES_EXIST 1)
