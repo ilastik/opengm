@@ -8,8 +8,13 @@ PATCH_FOLDER=./
 ConicBundle_FILENAME=CB_v0.3.11.tgz
 ConicBundle_URL=http://www-user.tu-chemnitz.de/~helmberg/ConicBundle/
 ConicBundle_SOURCE_FOLDER=../../ConicBundle-v0.3.11.src-patched/
-ConicBundle_PATCH_NAME=ConicBundle-v0.3.11.patch
-ConicBundle_PATCH_2_NAME=ConicBundle-v0.3.11-indexmat.patch
+
+PATCH_NAMES=(ConicBundle-v0.3.11.patch
+             ConicBundle-v0.3.11-indexmat.patch
+             ConicBundle-v0.3.11-matrix.patch
+             ConicBundle-v0.3.11-sparsmat.patch
+             ConicBundle-v0.3.11-sparssym.patch
+             ConicBundle-v0.3.11-symmat.patch)
 
 # check if destination folder already exists
 if [ -e "$ConicBundle_SOURCE_FOLDER" ]
@@ -50,20 +55,17 @@ fi
 
 # run patch
 echo "Patching files..."
-patch -s -d $ConicBundle_SOURCE_FOLDER -p1 < $PATCH_FOLDER$ConicBundle_PATCH_NAME -N -r -
-if [ "$?" != "0" ]
-then
-  echo "Couldn't run patch: ${ConicBundle_PATCH_NAME}"
-fi
+for PATCH_NAME in ${PATCH_NAMES[@]}
+do
+    patch -s -d $ConicBundle_SOURCE_FOLDER -p1 < $PATCH_FOLDER$PATCH_NAME -N -r -
+    if [ "$?" != "0" ]
+    then
+      echo "Couldn't run patch: ${PATCH_NAME}"
+      exit 1
+    fi
+done
+echo "Patching files done"
 
-patch -s -d $ConicBundle_SOURCE_FOLDER -p1 < $PATCH_FOLDER$ConicBundle_PATCH_2_NAME -N -r -
-if [ "$?" = "0" ]
-then 
-    echo "Patching files done"
-else
-    echo "Couldn't run patch: ${ConicBundle_PATCH_2_NAME}"
-    exit 1
-fi
 
 # run make
 echo "Running make..."

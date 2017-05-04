@@ -1,13 +1,15 @@
---- ConicBundle-v0.3.11.src-patched-orig/Matrix/indexmat.hxx	2017-05-04 17:02:59.000000000 -0400
-+++ ConicBundle-v0.3.11.src-patched/Matrix/indexmat.hxx	2017-05-04 17:50:32.000000000 -0400
-@@ -51,6 +51,22 @@
- 
- namespace CH_Matrix_Classes {
- 
+--- ConicBundle-v0.3.11.src/Matrix/indexmat.hxx	2017-05-04 17:02:59.000000000 -0400
++++ ConicBundle-v0.3.11.src/Matrix/indexmat.hxx	2017-05-04 18:44:41.000000000 -0400
+@@ -114,6 +114,25 @@ class Sparsesym;
+       i.e., the matrix is transformed to a vector by stacking the columns on top
+       of each other.
+    */
++
 +// The class below declares these as 'friend' functions,
 +// but simultaneously attempts to provide default arguments for them.
 +// That's not allowed, but we can declare them here first, with their default arguments.
 +// See: http://stackoverflow.com/questions/23333949/the-correct-way-to-define-default-argument-for-a-friend-function-in-c
++
 +class Indexmatrix;
 +inline Indexmatrix triu(const Indexmatrix& A,Integer d=0);
 +inline Indexmatrix tril(const Indexmatrix& A,Integer d=0);
@@ -20,10 +22,11 @@
 +Integer max(const Indexmatrix& A,Integer *iindex=0,Integer *jindex=0);
 +inline Indexmatrix find_number(const Indexmatrix& A,Integer num=0);
 +
- 
- //everything involving a "Sparsesym" is implemented in "sparssym.cxx/hxx"
- //everything else involving a "Sparsemat" is implemented in "sparsmat.cxx/hxx"
-@@ -350,10 +366,10 @@ public:
++
+ class Indexmatrix: protected Memarrayuser
+ {
+   friend class Matrix;
+@@ -350,10 +369,10 @@ public:
    friend Indexmatrix diag(const Indexmatrix& A);      //=(A(1,1),A(2,2),...)^t
  
    /// retuns a matrix that keeps the upper triangle of A starting with diagonal d, i.e., (i,j)=A(i,j) for 0<=i<row dimension, max(0,i+d)<=j<column dimension, and sets (i,j)=0 otherwise
@@ -36,7 +39,7 @@
  
    /// returns a new matrix [A, B], i.e., it concats matrices A and B rowwise; A or B may be a 0x0 matrix
    friend inline Indexmatrix concat_right(const Indexmatrix& A,const Indexmatrix& B);
-@@ -386,14 +402,14 @@ public:
+@@ -386,10 +405,10 @@ public:
    //@{
  
    ///returns x= alpha*y+beta*x, where y may be transposed (ytrans=1); if beta==0. then x is initialized to the correct size
@@ -49,12 +52,7 @@
    
    ///returns C=beta*C+alpha*A*B, where A and B may be transposed; C must not be equal to A and B; if beta==0 then C is initialized to the correct size
    friend Indexmatrix& genmult(const Indexmatrix& A,const Indexmatrix& B,Indexmatrix& C,
--			 Integer alpha=1,Integer beta=0,int atrans=0,int btrans=0);
-+			 Integer alpha,Integer beta,int atrans,int btrans);
-     
-   //@}
-     
-@@ -512,7 +528,7 @@ public:
+@@ -512,7 +531,7 @@ public:
    //@{
  
    /// return a nr x nc matrix with (i,j) assigned a random number uniformly from [lowerb,upperb] for all i,j
@@ -63,12 +61,12 @@
    /// return a matrix of the same size as A with (i,j)=sign(A(i,j)) for all i,j, see also CH_Matrix_Classes::sign()
    friend inline Indexmatrix sign(const Indexmatrix& A);
    friend Indexmatrix abs(const Indexmatrix& A);                 
-@@ -617,13 +633,13 @@ public:
+@@ -617,13 +636,13 @@ public:
    /// returns a column vector holding in each row the minimum over all columns in this row
    friend Indexmatrix mincols(const Indexmatrix& A);   
    /// returns the minimum value over all elements of the matrix
 -  friend Integer min(const Indexmatrix& A,Integer *iindex=0,Integer *jindex=0);
-+  friend Integer min(const Indexmatrix& A,Integer *iindex=0,Integer *jindex);
++  friend Integer min(const Indexmatrix& A,Integer *iindex,Integer *jindex);
    /// returns a row vector holding in each column the maximum over all rows in this column
    friend Indexmatrix maxrows(const Indexmatrix& A);   
    /// returns a column vector holding in each row the maximum over all columns in this row
@@ -79,7 +77,7 @@
    
    /// returns an Indexmatrix ind so that vec(ind(0))<=vec(ind(1))<=...<=vec(ind(vec.dim()-1)) (vec may be rectangular)
    friend inline Indexmatrix sortindex(const Indexmatrix& vec);
-@@ -633,7 +649,7 @@ public:
+@@ -633,7 +652,7 @@ public:
    /// returns an Indexmatrix ind so that A(ind(i)) 0<=i<ind.dim() runs through all nonzero elements of A 
    friend inline Indexmatrix find(const Indexmatrix& A);
    /// returns an Indexmatrix ind so that A(ind(i)) 0<=i<ind.dim() runs through all elements of A having value num 

@@ -1,0 +1,40 @@
+--- ConicBundle-v0.3.11.src/Matrix/sparssym.hxx	2017-05-04 17:02:59.000000000 -0400
++++ ConicBundle-v0.3.11.src/Matrix/sparssym.hxx	2017-05-04 18:33:39.000000000 -0400
+@@ -111,6 +111,15 @@ namespace CH_Matrix_Classes {
+       
+    */
+ 
++// The class below declares these as 'friend' functions,
++// but simultaneously attempts to provide default arguments for them.
++// That's not allowed, but we can declare them here first, with their default arguments.
++// See: http://stackoverflow.com/questions/23333949/the-correct-way-to-define-default-argument-for-a-friend-function-in-c
++class Sparsesym;
++Sparsesym sparseDiag(const Matrix& A,Real tol=SPARSE_ZERO_TOL);
++inline Sparsesym& xbpeya(Sparsesym& x,const Sparsesym& y,Real alpha=1.,Real beta=0.);
++Sparsesym& xeyapzb(Sparsesym& x,const Sparsesym& y,const Sparsesym& z,Real alpha=1.,Real beta=1.);
++
+ class Sparsesym: protected Memarrayuser
+ {
+     friend class Indexmatrix;
+@@ -298,7 +307,7 @@ public:
+   /// returns the diagonal of A as a dense Matrix vector
+   friend Matrix diag(const Sparsesym& A);      //=(A(1,1),A(2,2),...)^t
+   /// forms a sparse symmetrix matrix having vector A on its diagonal
+-  friend Sparsesym sparseDiag(const Matrix& A,Real tol=SPARSE_ZERO_TOL);
++  friend Sparsesym sparseDiag(const Matrix& A,Real tol);
+ 
+   /// swap the content of the two sparse matrices A and B (involves no copying)
+   friend void swap(Sparsesym& A, Sparsesym& B);
+@@ -328,10 +337,10 @@ public:
+   //@{
+ 
+   ///returns x= alpha*y+beta*x, where y may be transposed (ytrans=1); if beta==0. then x is initialized to the correct size
+-  inline friend Sparsesym& xbpeya(Sparsesym& x,const Sparsesym& y,Real alpha=1.,Real beta=0.);
++  inline friend Sparsesym& xbpeya(Sparsesym& x,const Sparsesym& y,Real alpha,Real beta);
+   
+   ///returns x= alpha*y+beta*z; x is initialized to the correct size
+-  friend Sparsesym& xeyapzb(Sparsesym& x,const Sparsesym& y,const Sparsesym& z,Real alpha=1.,Real beta=1.);
++  friend Sparsesym& xeyapzb(Sparsesym& x,const Sparsesym& y,const Sparsesym& z,Real alpha,Real beta);
+   
+   ///returns C=beta*C+alpha*AA^T (or A^TA), but only on the current support of C
+   friend Sparsesym& support_rankadd(const Matrix& A,Sparsesym& C,

@@ -1,0 +1,140 @@
+--- ConicBundle-v0.3.11.src/Matrix/matrix.hxx	2017-05-04 17:02:59.000000000 -0400
++++ ConicBundle-v0.3.11.src/Matrix/matrix.hxx	2017-05-04 18:38:49.000000000 -0400
+@@ -97,6 +97,32 @@ public:
+       i.e., the matrix is transformed to a vector by stacking the columns on top
+       of each other.
+    */
++
++// The class below declares these as 'friend' functions,
++// but simultaneously attempts to provide default arguments for them.
++// That's not allowed, but we can declare them here first, with their default arguments.
++// See: http://stackoverflow.com/questions/23333949/the-correct-way-to-define-default-argument-for-a-friend-function-in-c
++class Matrix;
++inline Matrix triu(const Matrix& A,Integer i=0);
++inline Matrix tril(const Matrix& A,Integer i=0);
++Matrix& xbpeya(Matrix& x,const Matrix& y,Real alpha=1.,Real beta=0.,int ytrans=0);
++Matrix& xeyapzb(Matrix& x,const Matrix& y,const Matrix& z,Real alpha=1.,Real beta=1.);
++Matrix& genmult(const Matrix& A,const Matrix& B,Matrix& C,
++             Real alpha=1.,Real beta=0.,int atrans=0,int btrans=0);
++inline Matrix rand(Integer nr,Integer nc,CH_Tools::GB_rand* random_generator=0);
++inline Matrix sign(const Matrix& A,Real tol=1e-12);
++Real normDsquared(const Matrix& A,const Matrix& d,int atrans=0,int dinv=0);
++Matrix house(const Matrix &A,Integer i=0,Integer j=0,Real tol=1e-10);
++int rowhouse(Matrix &A,const Matrix& v,Integer i=0,Integer j=0);
++int colhouse(Matrix &A,const Matrix& v,Integer i=0,Integer j=0);
++inline int QR_factor(const Matrix& A,Matrix& Q,Matrix &R,Real tol=1e-10);
++inline int QR_factor(const Matrix& A,Matrix& Q,Matrix &R,Indexmatrix& piv,Real tol=1e-10);
++Real min(const Matrix& A,Integer *iindex=0,Integer *jindex=0);
++Real max(const Matrix& A,Integer *iindex=0,Integer *jindex=0);
++inline Indexmatrix find(const Matrix& A,Real tol=1e-10);
++inline Indexmatrix find_number(const Matrix& A,Real num=0.,Real tol=1e-10);
++
++
+ class Matrix: protected Memarrayuser
+ {
+   friend class Indexmatrix;
+@@ -329,9 +355,9 @@ public:
+   friend Matrix diag(const Matrix& A);      //=(A(1,1),A(2,2),...)^t
+ 
+   /// retuns a matrix that keeps the upper triangle of A starting with diagonal d, i.e., (i,j)=A(i,j) for 0<=i<row dimension, max(0,i+d)<=j<column dimension, and sets (i,j)=0 otherwise
+-  friend inline Matrix triu(const Matrix& A,Integer i=0);
++  friend inline Matrix triu(const Matrix& A,Integer i);
+   /// retuns a matrix that keeps the lower triangle of A starting with diagonal d, i.e., (i,j)=A(i,j) for 0<=i<row dimension, 0<=j<min(i+d+1,column dimension), and sets (i,j)=0 otherwise
+-  friend inline Matrix tril(const Matrix& A,Integer i=0);
++  friend inline Matrix tril(const Matrix& A,Integer i);
+ 
+ 
+   /// returns a new matrix [A, B], i.e., it concats matrices A and B rowwise; A or B may be a 0x0 matrix
+@@ -369,14 +395,14 @@ public:
+   //@{
+ 
+   ///returns x= alpha*y+beta*x, where y may be transposed (ytrans=1); if beta==0. then x is initialized to the correct size
+-  friend Matrix& xbpeya(Matrix& x,const Matrix& y,Real alpha=1.,Real beta=0.,int ytrans=0);
++  friend Matrix& xbpeya(Matrix& x,const Matrix& y,Real alpha,Real beta,int ytrans);
+   
+   ///returns x= alpha*y+beta*z; x is initialized to the correct size
+-  friend Matrix& xeyapzb(Matrix& x,const Matrix& y,const Matrix& z,Real alpha=1.,Real beta=1.);
++  friend Matrix& xeyapzb(Matrix& x,const Matrix& y,const Matrix& z,Real alpha,Real beta);
+   
+   ///returns C=beta*C+alpha*A*B, where A and B may be transposed; C must not be equal to A and B; if beta==0. then C is initialized to the correct size
+   friend Matrix& genmult(const Matrix& A,const Matrix& B,Matrix& C,
+-			 Real alpha=1.,Real beta=0.,int atrans=0,int btrans=0);
++			 Real alpha,Real beta,int atrans,int btrans);
+   //@}
+     
+ 
+@@ -568,13 +594,13 @@ public:
+   //@{
+ 
+   /// return a nr x nc matrix with (i,j) assigned a random number uniformly from [0,1] for all i,j
+-  friend inline Matrix rand(Integer nr,Integer nc,CH_Tools::GB_rand* random_generator=0);
++  friend inline Matrix rand(Integer nr,Integer nc,CH_Tools::GB_rand* random_generator);
+   /// returns a matrix with elements (i,j)=abs((*this)(i,j)) for all i,j 
+   friend inline Matrix inv(const Matrix& A);
+   /// returns a matrix with elements (i,j)=abs((*this)(i,j)) for all i,j 
+   friend inline Matrix sqrt(const Matrix& A);
+   /// returns a matrix with elements (i,j)=sign((*this)(i,j)) for all i,j using ::sign(double,double)
+-  friend inline Matrix sign(const Matrix& A,Real tol=1e-12);
++  friend inline Matrix sign(const Matrix& A,Real tol);
+   /// returns a matrix with elements (i,j)=floor((*this)(i,j)) for all i,j 
+   friend inline Matrix floor(const Matrix& A);
+   /// returns a matrix with elements (i,j)=ceil((*this)(i,j)) for all i,j 
+@@ -690,7 +716,7 @@ public:
+   ///returns the Frobenius norm of A, i.e., the square root of the sum of A(i,j)*A(i,j) over all i,j 
+   friend inline Real norm2(const Matrix& A);               //=sqrt(ip(A,A));
+   ///returns trace(A^TDA)=\|A\|^2_D with D=Diag(d). A may be transposed, D may be inverted but there is no check for division by zero
+-  friend Real normDsquared(const Matrix& A,const Matrix& d,int atrans=0,int dinv=0);       
++  friend Real normDsquared(const Matrix& A,const Matrix& d,int atrans,int dinv);
+ 
+   ///returns a row vector holding the sum over all rows, i.e., (1 1 ... 1)*A
+   friend Matrix sumrows(const Matrix& A);   //=(1 1 1 ... 1)*A
+@@ -702,16 +728,16 @@ public:
+ 
+   //----- Householder rotations
+   /// returns the Householder vector of size A.rowdim() for the subcolumn A(i:A.rowdim(),j) 
+-  friend Matrix house(const Matrix &A,Integer i=0,Integer j=0,Real tol=1e-10);
++  friend Matrix house(const Matrix &A,Integer i,Integer j,Real tol);
+   /// Housholder pre-multiplication of A with Householder vector v; the first nonzero of v is index i, the multplication is applied to all columns of A with index >=j; always returns 0
+-  friend int rowhouse(Matrix &A,const Matrix& v,Integer i=0,Integer j=0);
++  friend int rowhouse(Matrix &A,const Matrix& v,Integer i,Integer j);
+   /// Housholder post-multiplication of A with Householder vector v; the first nonzero of v is index i, the multplication is applied to all rows of A with index >=j; always returns 0
+-  friend int colhouse(Matrix &A,const Matrix& v,Integer i=0,Integer j=0);   
++  friend int colhouse(Matrix &A,const Matrix& v,Integer i,Integer j);
+ 
+   /// computes a Householder QR factorization of A and outputs Q and R leaving A unchanged; always returns 0  
+-  friend inline int QR_factor(const Matrix& A,Matrix& Q,Matrix &R,Real tol=1e-10);
++  friend inline int QR_factor(const Matrix& A,Matrix& Q,Matrix &R,Real tol);
+   /// computes a Householder QR factorization of A with pivating. It outputs Q, R, and the pivoting permuation in piv; returns the rank of A  
+-  friend inline int QR_factor(const Matrix& A,Matrix& Q,Matrix &R,Indexmatrix& piv,Real tol=1e-10);
++  friend inline int QR_factor(const Matrix& A,Matrix& Q,Matrix &R,Indexmatrix& piv,Real tol);
+ 
+   //@}    
+ 
+@@ -775,13 +801,13 @@ public:
+   /// returns a column vector holding in each row the minimum over all columns in this row
+   friend Matrix mincols(const Matrix& A);   //min of each row (over the columns)
+   /// returns the minimum value over all elements of the matrix
+-  friend Real min(const Matrix& A,Integer *iindex=0,Integer *jindex=0);
++  friend Real min(const Matrix& A,Integer *iindex,Integer *jindex);
+   /// returns a row vector holding in each column the maximum over all rows in this column
+   friend Matrix maxrows(const Matrix& A);   //similar
+   /// returns a column vector holding in each row the maximum over all columns in this row
+   friend Matrix maxcols(const Matrix& A);   //similar
+   /// returns the maximum value over all elements of the matrix
+-  friend Real max(const Matrix& A,Integer *iindex=0,Integer *jindex=0);
++  friend Real max(const Matrix& A,Integer *iindex,Integer *jindex);
+   
+   /// returns an Indexmatrix ind so that vec(ind(0))<=vec(ind(1))<=...<=vec(ind(vec.dim()-1)) (vec may be rectangular)
+   friend inline Indexmatrix sortindex(const Matrix& vec);
+@@ -789,9 +815,9 @@ public:
+   friend void sortindex(const Matrix& vec,Indexmatrix &ind);
+   
+   /// returns an Indexmatrix ind so that A(ind(i)) 0<=i<ind.dim() runs through all nonzero elements with abs(A(j))>tol 
+-  friend inline Indexmatrix find(const Matrix& A,Real tol=1e-10);
++  friend inline Indexmatrix find(const Matrix& A,Real tol);
+    /// returns an Indexmatrix ind so that A(ind(i)) 0<=i<ind.dim() runs through all elements of A having value num, i.e., abs(A(j)-num)<tol 
+- friend inline Indexmatrix find_number(const Matrix& A,Real num=0.,Real tol=1e-10);
++ friend inline Indexmatrix find_number(const Matrix& A,Real num,Real tol);
+ 
+   //@}
+ 
