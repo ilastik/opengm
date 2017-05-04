@@ -9,6 +9,7 @@ ConicBundle_FILENAME=CB_v0.3.11.tgz
 ConicBundle_URL=http://www-user.tu-chemnitz.de/~helmberg/ConicBundle/
 ConicBundle_SOURCE_FOLDER=../../ConicBundle-v0.3.11.src-patched/
 ConicBundle_PATCH_NAME=ConicBundle-v0.3.11.patch
+ConicBundle_PATCH_2_NAME=ConicBundle-v0.3.11-indexmat.patch
 
 # check if destination folder already exists
 if [ -e "$ConicBundle_SOURCE_FOLDER" ]
@@ -25,7 +26,7 @@ if [ -e "$ZIP_FOLDER$ConicBundle_FILENAME" ]
 then
     echo "$ConicBundle_FILENAME already exists, skipping download."
 else
-    wget -q $ConicBundle_URL$ConicBundle_FILENAME -P $ZIP_FOLDER
+    wget --no-check-certificate $ConicBundle_URL$ConicBundle_FILENAME -P $ZIP_FOLDER
 fi
 
 # check if download was successful
@@ -50,11 +51,17 @@ fi
 # run patch
 echo "Patching files..."
 patch -s -d $ConicBundle_SOURCE_FOLDER -p1 < $PATCH_FOLDER$ConicBundle_PATCH_NAME -N -r -
+if [ "$?" != "0" ]
+then
+  echo "Couldn't run patch: ${ConicBundle_PATCH_NAME}"
+fi
+
+patch -s -d $ConicBundle_SOURCE_FOLDER -p1 < $PATCH_FOLDER$ConicBundle_PATCH_2_NAME -N -r -
 if [ "$?" = "0" ]
 then 
     echo "Patching files done"
 else
-    echo "Couldn't run patch"
+    echo "Couldn't run patch: ${ConicBundle_PATCH_2_NAME}"
     exit 1
 fi
 
