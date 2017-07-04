@@ -10,6 +10,8 @@
 #include <opengm/inference/mqpbo.hxx>
 # include <param/mqpbo_param.hxx>
 
+#include "init_numpy.hxx"
+
 using namespace boost::python;
 
 
@@ -17,7 +19,7 @@ using namespace boost::python;
 template<class GM,class ACC>
 void export_mqpbo(){
    using namespace boost::python;
-   import_array();
+   init_numpy();
    append_subnamespace("solver");
 
    // setup 

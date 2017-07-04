@@ -19,6 +19,8 @@
 #include <param/intersection_based_param.hxx>
 #include "opengm/inference/auxiliary/fusion_move/permutable_label_fusion_mover.hxx"
 
+#include "init_numpy.hxx"
+
 
 
 template<class GEN>
@@ -52,7 +54,7 @@ void export_intersection_based_proposal_param( InfSetup & setup, const std::stri
 template<class GM,class ACC>
 void export_intersection_based(){
     using namespace boost::python;
-    import_array();
+    init_numpy();
     append_subnamespace("solver");
 
     // documentation 
@@ -147,7 +149,7 @@ void export_cgc(){
 
    {
       using namespace boost::python;
-      import_array();
+      init_numpy();
       append_subnamespace("solver");
 
       // setup 

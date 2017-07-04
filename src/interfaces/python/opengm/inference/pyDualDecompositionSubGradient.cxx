@@ -30,6 +30,7 @@
 #include <opengm/python/numpyview.hxx>
 #include <opengm/python/pythonfunction.hxx>
 
+#include "init_numpy.hxx"
 
 
 using namespace boost::python;
@@ -39,7 +40,7 @@ template<class GM,class ACC>
 void export_dual_decomposition_subgradient(){
 
    using namespace boost::python;
-   import_array();
+   init_numpy();
   
 
    typedef typename GM::ValueType                                                   ValueType;

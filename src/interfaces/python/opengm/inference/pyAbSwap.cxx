@@ -13,11 +13,12 @@
 
 #include <param/alpha_beta_swap_param.hxx>
 
+#include "init_numpy.hxx"
 
 template<class GM,class ACC>
 void export_abswap(){
 
-   import_array(); 
+   init_numpy();
    typedef GM PyGm;
    typedef typename PyGm::ValueType ValueType;
    typedef typename PyGm::IndexType IndexType;

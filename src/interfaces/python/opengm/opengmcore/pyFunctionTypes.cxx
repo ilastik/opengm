@@ -30,6 +30,8 @@
 #include "opengm/functions/learnable/lunary.hxx"
 #include "opengm/functions/learnable/lweightedsum_of_functions.hxx"
 
+#include "init_numpy.hxx"
+
 
 using namespace boost::python;
 
@@ -460,7 +462,7 @@ namespace pyfuncvec{
 
 template<class V,class I>
 void export_functiontypes(){
-   import_array();
+   init_numpy();
    boost::python::numeric::array::set_module_and_type("numpy", "ndarray");
    typedef V ValueType;
    typedef I IndexType;

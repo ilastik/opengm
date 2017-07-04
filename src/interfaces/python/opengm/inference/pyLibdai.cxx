@@ -14,6 +14,9 @@
 #include <opengm/inference/external/libdai/dec_map.hxx>
 #include <param/libdai_param.hxx>
 
+#include "init_numpy.hxx"
+
+
 using namespace boost::python;
 
 
@@ -29,7 +32,7 @@ void export_libdai_inference(){
 
 
 	using namespace boost::python;
-   import_array();
+   init_numpy();
    append_subnamespace("solver");
    
    // INFERENCE TYPEDEFS

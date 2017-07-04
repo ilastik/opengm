@@ -9,6 +9,9 @@
 #include <opengm/operations/integrator.hxx>
 #include <opengm/operations/logsumexp.hxx>
 
+#include "init_numpy.hxx"
+
+
 #include "pyInference.hxx"
 #include "pyIcm.hxx"
 #include "pyGraphcut.hxx"
@@ -119,7 +122,7 @@ BOOST_PYTHON_MODULE_INIT(_inference) {
    scope current;
    std::string currentScopeName(extract<const char*>(current.attr("__name__")));
    currentScopeName="inference";
-   //import_array();
+   //init_numpy();
    export_inference();
    //adder
    {

@@ -9,10 +9,13 @@
 #include <opengm/inference/external/trws.hxx>
 #include <param/trws_external_param.hxx>
 
+#include "init_numpy.hxx"
+
+
 template<class GM,class ACC>
 void export_trws(){
    using namespace boost::python;
-   import_array();
+   init_numpy();
    append_subnamespace("solver");
 
    // setup 

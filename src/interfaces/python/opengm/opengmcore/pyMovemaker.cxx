@@ -17,6 +17,7 @@
 #include <opengm/python/numpyview.hxx>
 #include <opengm/python/pythonfunction.hxx>
 
+#include "init_numpy.hxx"
 
 #include "../gil.hxx"
 
@@ -137,7 +138,7 @@ void export_movemaker() {
    boost::python::numeric::array::set_module_and_type("numpy", "ndarray");
    boost::python::docstring_options docstringOptions(true,true,false);
    
-   import_array();
+   init_numpy();
    typedef GM PyGm;
    typedef typename PyGm::SpaceType PySpace;
    typedef typename PyGm::ValueType ValueType;

@@ -12,6 +12,8 @@
 #include <opengm/inference/lp_inference.hxx>
 #include <param/lp_inference_param.hxx>
 
+#include "init_numpy.hxx"
+
 
 #ifdef WITH_CPLEX
 #include <opengm/inference/auxiliary/lp_solver/lp_solver_cplex.hxx>
@@ -25,7 +27,7 @@
 template<class GM, class ACC>
 void export_lp_inference() {
 
-   import_array();
+   init_numpy();
    using namespace boost::python;
    std::string srName = semiRingName  <typename GM::OperatorType,ACC >() ;
 

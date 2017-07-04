@@ -6,12 +6,14 @@
 #include <opengm/inference/partition-move.hxx>
 #include <param/partition_move_param.hxx>
 
+#include "init_numpy.hxx"
+
 using namespace boost::python;
 
 template<class GM,class ACC>
 void export_partition_move(){
    using namespace boost::python;
-   import_array();
+   init_numpy();
    append_subnamespace("solver");
 
    // setup 

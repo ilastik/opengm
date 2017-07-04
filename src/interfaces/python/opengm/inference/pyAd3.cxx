@@ -6,6 +6,7 @@
 #include <opengm/inference/external/ad3.hxx>
 #include <param/ad3_param.hxx>
 
+#include "init_numpy.hxx"
 
 using namespace boost::python;
 
@@ -47,7 +48,7 @@ boost::python::object pyAd3Posteriors(const INF & inf){
 template<class GM,class ACC>
 void export_ad3(){
    using namespace boost::python;
-   import_array();
+   init_numpy();
    append_subnamespace("solver");
 
    std::string srName = semiRingName  <typename GM::OperatorType,ACC >() ;

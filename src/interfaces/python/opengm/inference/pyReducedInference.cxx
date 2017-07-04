@@ -29,6 +29,8 @@
 //#include <opengm/inference/external/gco.hxx>
 //#endif
 
+#include "init_numpy.hxx"
+
 
 using namespace boost::python;
 
@@ -51,7 +53,7 @@ void export_reduced_inference(){
 
 
    using namespace boost::python;
-   import_array();
+   init_numpy();
   
    typedef opengm::ReducedInferenceHelper<GM> RedInfHelper;
    typedef typename RedInfHelper::InfGmType SubGmType;

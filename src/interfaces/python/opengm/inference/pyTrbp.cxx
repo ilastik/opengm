@@ -5,12 +5,13 @@
 #include "marginal_def_visitor.hxx"
 #include <opengm/inference/messagepassing/messagepassing.hxx>
 #include <param/message_passing_param.hxx>
+#include "init_numpy.hxx"
 
 
 template<class GM,class ACC>
 void export_trbp(){
    using namespace boost::python;
-   import_array();
+   init_numpy();
    append_subnamespace("solver");
 
    // setup 

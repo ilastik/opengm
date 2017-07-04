@@ -5,6 +5,7 @@
 #include <opengm/inference/icm.hxx>
 #include <param/icm_param.hxx>
 
+#include "init_numpy.hxx"
 
 // export function
 template<class GM, class ACC>
@@ -13,7 +14,7 @@ void export_icm() {
    using namespace boost::python;
    //Py_Initialize();
    //PyEval_InitThreads();
-   import_array();
+   init_numpy();
    append_subnamespace("solver");
 
    // setup 

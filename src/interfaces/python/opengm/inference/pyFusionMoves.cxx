@@ -17,6 +17,8 @@
 #include "opengm/inference/infandflip.hxx"
 #include <opengm/inference/messagepassing/messagepassing.hxx>
 
+#include "init_numpy.hxx"
+
 
 
 #ifdef WITH_AD3
@@ -151,7 +153,7 @@ void export_fusion_moves(){
    boost::python::numeric::array::set_module_and_type("numpy", "ndarray");
    boost::python::docstring_options docstringOptions(true,true,false);
    
-   import_array();
+   init_numpy();
 
 
    typedef PythonFusionMover<GM,ACC> PyFusionMover;

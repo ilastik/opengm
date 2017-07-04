@@ -5,11 +5,13 @@
 #include <opengm/inference/lazyflipper.hxx>
 #include <param/lazyflipper_param.hxx>
 
+#include "init_numpy.hxx"
+
 
 template<class GM,class ACC>
 void export_lazyflipper(){
    using namespace boost::python;
-   import_array();
+   init_numpy();
    append_subnamespace("solver");
 
    // setup 

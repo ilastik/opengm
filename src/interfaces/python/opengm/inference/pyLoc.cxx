@@ -8,13 +8,15 @@
 #include <opengm/inference/loc.hxx>
 # include <param/loc_param.hxx>
 
+#include "init_numpy.hxx"
+
 using namespace boost::python;
 
 
 template<class GM,class ACC>
 void export_loc(){
    using namespace boost::python;
-   import_array();
+   init_numpy();
    append_subnamespace("solver");
 
    // setup 

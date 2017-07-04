@@ -17,6 +17,7 @@
 #include <opengm/python/numpyview.hxx>
 #include <opengm/python/pythonfunction.hxx>
 
+#include "init_numpy.hxx"
 
 using namespace boost::python;
 
@@ -30,7 +31,7 @@ void export_ifactor(){
    typedef IndexType LabelType;
    typedef opengm::IndependentFactor<ValueType,IndexType,LabelType> PyIndependentFactor;
    
-   import_array();
+   init_numpy();
    docstring_options doc_options(true,true,false);
    typedef FactorShapeHolder<PyIndependentFactor> ShapeHolder;
    typedef FactorViHolder<PyIndependentFactor> ViHolder;

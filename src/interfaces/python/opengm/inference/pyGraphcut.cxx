@@ -21,6 +21,7 @@
 #include <opengm/python/numpyview.hxx>
 #include <opengm/python/pythonfunction.hxx>
 
+#include "init_numpy.hxx"
 
 
 
@@ -28,7 +29,7 @@ using namespace boost::python;
 
 template<class GM,class ACC>
 void export_graphcut(){
-   import_array(); 
+   init_numpy();
    typedef GM PyGm;
    typedef typename PyGm::ValueType ValueType;
    typedef typename PyGm::IndexType IndexType;

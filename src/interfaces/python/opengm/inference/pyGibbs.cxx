@@ -9,13 +9,13 @@
 #include <opengm/python/converter.hxx>
 #include <opengm/python/numpyview.hxx>
 #include <opengm/python/pythonfunction.hxx>
+#include "init_numpy.hxx"
 
 template<class GM,class ACC>
 void export_gibbs(){
-   import_array(); 
+   init_numpy();
    // Py Inference Types 
    using namespace boost::python;
-   import_array();
    append_subnamespace("solver");
 
    // setup 

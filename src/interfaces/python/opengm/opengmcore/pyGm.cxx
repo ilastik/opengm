@@ -36,6 +36,8 @@
 #include <opengm/python/numpyview.hxx>
 #include <opengm/python/pythonfunction.hxx>
 
+#include "init_numpy.hxx"
+
 
 #include "nifty_iterator.hxx"
 #include "../gil.hxx"
@@ -1443,7 +1445,7 @@ template<class GM>
 void export_gm() {
 
    boost::python::numeric::array::set_module_and_type("numpy", "ndarray");
-   import_array();
+   init_numpy();
 
    typedef GM PyGm;
    typedef typename PyGm::SpaceType PySpace;

@@ -13,6 +13,7 @@ include_directories(
 
 
 set(INF_TARGETS 
+    ../opengmcore/init_numpy.cxx
     inference.cpp
     pyInference.cxx
     #pyPbp.cxx

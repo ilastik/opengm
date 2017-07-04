@@ -16,13 +16,14 @@
 #include <opengm/inference/lpcplex.hxx>
 #include <param/lpcplex_param.hxx>
 
+#include "init_numpy.hxx"
 
 
 // export function
 template<class GM, class ACC>
 void export_cplex() {
    using namespace boost::python;
-   import_array();
+   init_numpy();
    append_subnamespace("solver");
 
    // setup 

@@ -5,6 +5,8 @@
 #include <opengm/inference/fusion_based_inf.hxx>
 #include <param/fusion_based_param.hxx>
 
+#include "init_numpy.hxx"
+
 
 
 template<class GEN>
@@ -38,7 +40,7 @@ void export_proposal_param( InfSetup & setup, const std::string & genName){
 template<class GM,class ACC>
 void export_fusion_based(){
     using namespace boost::python;
-    import_array();
+    init_numpy();
     append_subnamespace("solver");
 
     // documentation 

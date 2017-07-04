@@ -12,6 +12,10 @@
 
 
 #include <opengm/utilities/functors.hxx>
+
+#include "init_numpy.hxx"
+
+
 using namespace boost::python;
 
 
@@ -212,7 +216,7 @@ namespace pyvector{
 template<class INDEX>
 void export_vectors() {
    boost::python::numeric::array::set_module_and_type("numpy", "ndarray");
-   import_array();
+   init_numpy();
    typedef std::vector<INDEX> IndexTypeStdVector;
    typedef std::vector< IndexTypeStdVector> IndexTypeStdVectorVector;
 

@@ -7,12 +7,14 @@
 #include <opengm/inference/external/mrflib.hxx>
 #include <param/mrf_param.hxx>
 
+#include "init_numpy.hxx"
+
 using namespace boost::python;
 
 template<class GM,class ACC>
 void export_mrf(){
    using namespace boost::python;
-   import_array();
+   init_numpy();
    append_subnamespace("solver");
 
 

@@ -33,6 +33,7 @@ include_directories(
 #--------------------------------------------------------------
 if(APPLE)
     add_library(_opengmcore MODULE 
+    init_numpy.cxx
     opengmcore.cpp
     pyGmManipulator.cxx
     pyConfig.cxx
@@ -49,6 +50,7 @@ if(APPLE)
     )
 else()
     add_library(_opengmcore SHARED  
+    init_numpy.cxx
     opengmcore.cpp
     pyGmManipulator.cxx
     pyConfig.cxx

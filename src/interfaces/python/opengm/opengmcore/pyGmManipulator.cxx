@@ -26,6 +26,7 @@
 
 #include "../gil.hxx"
 #include "pyPythonFunction.hxx"
+#include "init_numpy.hxx"
 
 
 
@@ -144,7 +145,7 @@ template<class GM>
 void export_gm_manipulator() {
   
    boost::python::numeric::array::set_module_and_type("numpy", "ndarray");
-   import_array();
+   init_numpy();
 
    
 

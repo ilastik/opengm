@@ -9,12 +9,14 @@
 
 #include "multicut_def_suite.hxx"
 
+#include "init_numpy.hxx"
+
 using namespace boost::python;
 
 template<class GM,class ACC>
 void export_multicut(){
    using namespace boost::python;
-   import_array();
+   init_numpy();
    append_subnamespace("solver");
 
    // setup 

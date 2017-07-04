@@ -19,6 +19,8 @@
 #include <opengm/inference/external/trws.hxx>
 #endif //WITH_TRWS
 
+#include "init_numpy.hxx"
+
 using namespace boost::python;
 
 
@@ -26,7 +28,7 @@ template<class GM,class ACC>
 void export_self_fusion(){
 
    using namespace boost::python;
-   import_array();
+   init_numpy();
   
 
 

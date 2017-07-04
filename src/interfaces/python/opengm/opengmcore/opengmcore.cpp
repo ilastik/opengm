@@ -35,6 +35,8 @@
 #include "opengm/functions/explicit_function.hxx"
 #include "opengm/functions/potts.hxx"
 
+#include "init_numpy.hxx"
+
 
 //using namespace opengm::python;
 
@@ -577,7 +579,7 @@ BOOST_PYTHON_MODULE_INIT(_opengmcore) {
    object package = scope();
    package.attr("__path__") = "opengm";
    
-   import_array();
+   init_numpy();
 
    register_exception_translator<opengm::RuntimeError>(&translateOpenGmRuntimeError);
    register_exception_translator<std::runtime_error>(&translateStdRuntimeError);
