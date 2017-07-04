@@ -19,6 +19,12 @@
 #include <opengm/graphicalmodel/graphicalmodel.hxx>
 #include <opengm/python/numpyview.hxx>
 
+#if PY_MAJOR_VERSION >= 3
+    // 'Int' type doesn't exist in the Python-3 C-API
+    // http://python3porting.com/cextensions.html
+    #define PyInt_FromLong PyLong_FromLong
+#endif
+
 namespace opengm{
 namespace python{
 
